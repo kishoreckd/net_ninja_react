@@ -1,19 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
+  const [name , setName ]= useState('Jagadish')
+  const [person , setPerson ]= useState({name:'Iron man' ,age :21});
+
+  const btnClick =()=>{
+    setName('Mission')
+    setPerson({name:'Tony', age:'22'})
+  }
   return (
     <View style={styles.container}>
-
-      <View style ={styles.headers}>
-          <Text style ={styles.boldText}>Hello World</Text>
+      <Text>My name is {name}</Text>
+      <Text>His name is {person.name} and his age is {person.age}</Text>
+      <View style ={styles.buttonContainer}>
+        <Button title='Update State' onPress={btnClick} />
       </View>
-      {/* <View style ={styles.body}>
-          <Text style ={styles.text}>Body</Text>
-          <Text style ={styles.text}>Body</Text>
-          <Text style ={styles.text}>Body</Text>
-          <Text style ={styles.text}>Body</Text>
-      </View> */}
     </View>
   );
 }
