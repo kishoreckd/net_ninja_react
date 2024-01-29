@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View , ScrollView,FlatList , TouchableOpacity} from 'react-native';
 import Header from './components/header';
+import TodoItem from './components/todo';
 
 export default function App() {
 const [todos ,setTodos] = useState([
@@ -10,6 +11,11 @@ const [todos ,setTodos] = useState([
   {text: 'play on the switch' , key:'3'},
 ])
 
+ const presshandler =(key)=>{
+  setTodos ((prevTodos)=>{
+    return prevTodos.filter(todo=>todo.key !=key)
+  })
+ }
   return (
     <View style={styles.container}>
       {/**Header */}
@@ -21,7 +27,8 @@ const [todos ,setTodos] = useState([
         <FlatList
         data = {todos}
         renderItem={({ item }) => (
-          <Text>{item.text}</Text>
+          <TodoItem item={item} presshandler={presshandler} />
+
         )}
         />
       </View>
