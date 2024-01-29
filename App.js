@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View , ScrollView,FlatList , TouchableOpacity, Alert} from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View , } from 'react-native';
+import Home from './screens/home';
 
 
 export default function App() {
@@ -8,15 +9,7 @@ export default function App() {
  
 
   return (
-    <View style={styles.container}>
-      {/**Header */}
-      <View style ={styles.content}>
-      {/**To form */}
-     
-
-      </View>
-     
-    </View>
+   <Home/>
   );
 }
 
