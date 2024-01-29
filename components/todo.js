@@ -14,7 +14,7 @@ export default function TodoItem({item,presshandler}) {
     </TouchableOpacity>
  )
 }
-
+// Todo
 
 const styles = StyleSheet.create({
 
