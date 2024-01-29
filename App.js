@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View , ScrollView,FlatList , TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View , ScrollView,FlatList , TouchableOpacity, Alert} from 'react-native';
 import Header from './components/header';
 import TodoItem from './components/todo';
 import AddTodo from './components/addTodo';
@@ -34,11 +34,7 @@ const [todos ,setTodos] = useState([
   }
  }
   return (
-    <TouchableWithoutFeedback onPress={()=>{
-      Keyboard.dismiss();
-      console.log('dismissed Keyboard');
-    }}>
-      <View style={styles.container}>
+    <View style={styles.container}>
       {/**Header */}
       <Header />
       <View style ={styles.content}>
@@ -57,7 +53,6 @@ const [todos ,setTodos] = useState([
       </View>
      
     </View>
-    </TouchableWithoutFeedback>
   );
 }
 
@@ -70,6 +65,11 @@ const styles = StyleSheet.create({
   },
   content : {
     padding :40,
+    backgroundColor:'pink',
+    flex:1
+  },
+  list:{
+    marginTop:20,
+    backgroundColor:'yellow'
   }
-  
 });
