@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View , ScrollView,FlatList , TouchableOpacity} from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View , ScrollView,FlatList , TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import Header from './components/header';
 import TodoItem from './components/todo';
 import AddTodo from './components/addTodo';
@@ -19,17 +19,26 @@ const [todos ,setTodos] = useState([
  }
 
  const submitHandler =(text)=>{
-  setTodos((prevTodos)=>{
-    return [
-      {text:text, key:Math.random().toString()},
-      ...prevTodos
-    ]
-  });
-
-
+  if (text.length >3 ) {
+    setTodos((prevTodos)=>{
+      return [
+        {text:text, key:Math.random().toString()},
+        ...prevTodos
+      ]
+    });
+  }
+  else{
+    Alert.alert('OOPS!','Todos must be over 3 chars long',[
+      {text:'Understood', onPress:()=>console.log('alert closed')}
+    ])
+  }
  }
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={()=>{
+      Keyboard.dismiss();
+      console.log('dismissed Keyboard');
+    }}>
+      <View style={styles.container}>
       {/**Header */}
       <Header />
       <View style ={styles.content}>
@@ -48,6 +57,7 @@ const [todos ,setTodos] = useState([
       </View>
      
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
