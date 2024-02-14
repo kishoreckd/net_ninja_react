@@ -52,7 +52,7 @@ const HomeHeader = ({ onSearch }) => {
             color: COLORS.white,
           }}
         >
-          Hello DCKAP 👋
+          Hello Victoria 👋
         </Text>
 
         <Text
@@ -63,7 +63,7 @@ const HomeHeader = ({ onSearch }) => {
             marginTop: SIZES.base / 2,
           }}
         >
-          Let's Find what you want
+          Let’s find masterpiece Art
         </Text>
       </View>
 
