@@ -3,7 +3,7 @@ import NFTCard from "./NFTCard";
 import { RectButton, CircleButton } from "./Button";
 import { SubInfo, People, EndDate, EthPrice, NFTTitle } from "./SubInfo";
 import DetailsBid from "./DetailsBid";
-import FocusedStatusBar from "./FocusedStatusBar";
+import FocusedStatusBar from "./focusedStatusBar";
 import DetailsDesc from './DetailsDesc';
 
 export {

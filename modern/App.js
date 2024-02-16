@@ -23,7 +23,9 @@ const App = () => {
     InterMedium: require("./assets/fonts/Inter-Medium.ttf"),
     InterRegular: require("./assets/fonts/Inter-Regular.ttf"),
     InterLight: require("./assets/fonts/Inter-Light.ttf"),
-  });
+  }
+  
+  );
 
   if (!loaded) return null;
 

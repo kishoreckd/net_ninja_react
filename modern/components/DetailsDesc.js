@@ -32,7 +32,7 @@ const DetailsDesc = ({ data }) => {
         <Text
           style={{
             fontSize: SIZES.font,
-            fontFamily: FONTS.semiBold,
+            // fontFamily: FONTS.semiBold,
             color: COLORS.primary,
           }}
         >
@@ -47,7 +47,7 @@ const DetailsDesc = ({ data }) => {
             style={{
               color: COLORS.secondary,
               fontSize: SIZES.small,
-              fontFamily: FONTS.regular,
+              // fontFamily: FONTS.regular,
               lineHeight: SIZES.large,
             }}
           >
@@ -57,7 +57,7 @@ const DetailsDesc = ({ data }) => {
               style={{
                 color: COLORS.primary,
                 fontSize: SIZES.small,
-                fontFamily: FONTS.semiBold,
+                // fontFamily: FONTS.semiBold,
               }}
               onPress={() => {
                 if (!readMore) {

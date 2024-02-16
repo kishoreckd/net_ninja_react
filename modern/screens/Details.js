@@ -72,7 +72,7 @@ const Details = ({ route, navigation }) => {
                 <Text
                   style={{
                     fontSize: SIZES.font,
-                    fontFamily: FONTS.semiBold,
+                    // fontFamily: FONTS.semiBold,
                     color: COLORS.primary,
                   }}
                 >
