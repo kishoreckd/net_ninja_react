@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Dummy community data
-const selectedCommunity = {
-  domain: 'example.com',
-};
 
-const LogInScreen = () => {
+const LogInScreen = ({ route }) => {
+  const { selectedCommunity } = route.params;
+
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loginFailed, setLoginFailed] = useState(false);
@@ -16,15 +14,54 @@ const LogInScreen = () => {
 
   useEffect(() => {
   }, []);
-
   const handleLogin = async () => {
-   
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      setLoginFailed(true); // Simulate login failure
-    }, 2000);
+  
+    try {
+      const response = await fetch('https://api.zircly.com/api/login', {
+        method: 'POST',
+        headers: {
+          'Origin': `https://${selectedCommunity.domain}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          password: userPassword,
+        }),
+      });
+  
+      const data = await response.json();
+      if (response.ok && data.success) {
+        const token = data.data.token; 
+  
+        const getUserResponse = await fetch('https://api.zircly.com/api/user', {
+          method: 'GET',
+          headers: {
+            'Origin': `https://${selectedCommunity.domain}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`, 
+          },
+        });
+  
+        const userData = await getUserResponse.json();
+        if (getUserResponse.ok) {
+          navigation.navigate('CommunityScreen', {  userData });
+        } else {
+          console.error('Error fetching user data:', userData);
+        }
+      } else {
+        setLoginFailed(true);
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setLoginFailed(true);
+    }
+  
+    setIsLoading(false);
   };
+  
 
   return (
     <View style={styles.container}>
@@ -35,7 +72,7 @@ const LogInScreen = () => {
         <View style={styles.logoContainer}>
           <Image source={require('../../assets/images/zirclyLogo.png')} style={styles.logo} />
           <Text style={styles.title}>Welcome</Text>
-          <Text style={styles.subtitle}>to Zircly</Text>
+          <Text style={styles.subtitle}>to {selectedCommunity.company_name}'s Zircly</Text>
           <Image
             source={require('../../assets/images/House.png')}
             style={styles.image}
@@ -121,7 +158,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   email: {
-    textAlign: 'start',
+    // textAlign: 'start',
     marginBottom: 5,
   },
   loginButton: {

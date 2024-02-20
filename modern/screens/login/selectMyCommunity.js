@@ -2,16 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Dummy community data
-const communityData = {
-  list: [
-    { companyName: 'Community 1', domainEmail: 'community1@example.com', domain: 'example.com' },
-    { companyName: 'Community 2', domainEmail: 'community2@example.com', domain: 'example.com' },
-    { companyName: 'Community 3', domainEmail: 'community3@example.com', domain: 'example.com' },
-  ]
-};
-
-const SelectCommunityScreen = () => {
+const SelectCommunityScreen = ({ route }) => {
+  const { communityData } = route.params; // Accessing the communityData array from route params
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigation = useNavigation();
 
@@ -24,7 +16,9 @@ const SelectCommunityScreen = () => {
   };
 
   const handleContinue = () => {
-    navigation.navigate('LogInScreen');
+    const selectedCommunity = communityData[selectedIndex];
+
+    navigation.navigate('LogInScreen',{ selectedCommunity: selectedCommunity });
   };
 
   return (
@@ -33,7 +27,7 @@ const SelectCommunityScreen = () => {
         <Image source={require('../../assets/images/zirclyLogo.png')} style={styles.logo} />
         <Text style={styles.title}>Select Community</Text>
         <View style={styles.communityList}>
-          {communityData.list.map((community, index) => (
+          {communityData.map((community, index) => (
             <TouchableOpacity
               key={index}
               style={[
@@ -43,7 +37,7 @@ const SelectCommunityScreen = () => {
               onPress={() => handleCommunitySelection(index)}
             >
               <Text style={styles.communityName}>
-                {`${community.companyName}(${community.domainEmail}) ${community.domain}`}
+                {`${community.company_name} (${community.domain_email}) ${community.domain}`}
               </Text>
               {index === selectedIndex && (
                 <Text style={styles.selectedIcon}>✓</Text>
@@ -93,7 +87,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   communityName: {
-    fontFamily: 'Montserrat',
     fontSize: 14,
   },
   selectedIcon: {
@@ -125,7 +118,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   fabText: {
-    fontFamily: 'Montserrat',
     fontSize: 16,
     fontWeight: '700',
     color: '#FFF',
