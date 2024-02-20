@@ -5,6 +5,9 @@ import { useFonts } from "expo-font";
 
 import Home from "./screens/Home";
 import Details from "./screens/Details";
+import FindMyCommunity from "./screens/login/FindMyCommunity";
+import SelectCommunityScreen from "./screens/login/selectMyCommunity";
+import LogInScreen from "./screens/login/loginscreen";
 
 const theme = {
   ...DefaultTheme,
@@ -35,8 +38,11 @@ const App = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="Home"
+        initialRouteName="FindMyCommunity"
       >
+        <Stack.Screen  name="FindMyCommunity" component={FindMyCommunity} />
+        <Stack.Screen  name="SelectMyCommunity" component={SelectCommunityScreen} />
+        <Stack.Screen  name="LogInScreen" component={LogInScreen} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
