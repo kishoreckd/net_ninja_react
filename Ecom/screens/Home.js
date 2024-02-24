@@ -4,7 +4,6 @@ import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, Style
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
