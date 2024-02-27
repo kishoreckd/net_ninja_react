@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
-
-const Home = ({ navigation }) => {
+import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Button } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const Home = ({ navigation, cart, setCart }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const userData =  AsyncStorage.getItem('userData');
+ 
+  
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
@@ -29,9 +33,14 @@ const Home = ({ navigation }) => {
           <Text style={styles.productTitle}>{item.title}</Text>
           <Text style={styles.productPrice}>${item.price}</Text>
         </View>
+        <Button title="Add to Cart" onPress={() => addToCart(item)} />
       </View>
     </TouchableOpacity>
   );
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
 
   if (loading) {
     return (
@@ -71,6 +80,7 @@ const styles = StyleSheet.create({
   productContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between', // Align the button to the end
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
     paddingBottom: 10,

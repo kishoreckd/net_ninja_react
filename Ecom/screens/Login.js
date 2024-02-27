@@ -1,29 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginPage = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
- const handleLogin = async () => {
-  try {
-    if (!username || !password) {
-      throw new Error('Username and password are required');
+  useEffect(() => {
+    checkIfLoggedIn();
+  }, []);
+
+  const checkIfLoggedIn = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (userData) {
+        navigation.navigate("Home");
+      }
+    } catch (error) {
+      console.error('Error checking if logged in:', error);
     }
+  };
 
-    const response = await fetch('https://fakestoreapi.com/users/1');
-    
-    if (!response.ok) {
-      throw new Error('Invalid credentials');
+  const handleLogin = async () => {
+    try {
+      if (!username || !password) {
+        throw new Error('Username and password are required');
+      }
+  
+      const response = await fetch('https://fakestoreapi.com/users/1');
+      if (!response.ok) {
+        throw new Error('Invalid credentials');
+      }
+  
+      const userData = await response.json(); // Parse response data
+      await AsyncStorage.setItem('userData', JSON.stringify(userData)); // Store user data in AsyncStorage
+      navigation.navigate("Home");
+    } catch (error) {
+      Alert.alert("Login Failed", error.message);
     }
-
-    navigation.navigate("Home");
-  } catch (error) {
-    Alert.alert("Login Failed", error.message);
-  }
-};
-
+  };
 
   return (
     <View style={styles.container}>

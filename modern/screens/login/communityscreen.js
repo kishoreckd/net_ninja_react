@@ -3,9 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 
 const CommunityScreen = ({ route }) => {
   const { userData } = route.params;
-console.log('====================================');
-console.log(userData);
-console.log('====================================');
+
   return (
     <View style={styles.container}>
     <Image source={{ uri: userData.data.avatar }} style={styles.avatar} />
