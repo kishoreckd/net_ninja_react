@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
 import Home from "./screens/Home";
@@ -49,11 +49,19 @@ const App = () => {
             }
           },
           headerRight: () => {
-            if (route.name === 'Home' && cart && cart.length > 0) {
-              return <CartButton navigation={navigation} />;
-            } else {
-              return null;
+            const cartItemCount = cart ? cart.length : 0;
+
+            if (route.name === 'Home') {
+              return (
+                <CartButton navigation={navigation} cart={cart} cartItemCount={cartItemCount}/>
+              );
+              } else {
+              if (route.name !== 'Login') {
+                return <BackButton navigation={navigation} />;
+              }
             }
+
+          
           },
         })}
         initialRouteName="Login"
@@ -64,7 +72,7 @@ const App = () => {
         </Stack.Screen>
         <Stack.Screen name="ProductDescription" component={ProductDescription} />
         <Stack.Screen name="ProfilePage" component={ProfilePage} />
-        <Stack.Screen name="Cart">{(props) => <CartPage {...props} cart={cart}  setCart={setCart} />}</Stack.Screen>
+        <Stack.Screen name="Cart">{(props) => <CartPage {...props} cart={cart} setCart={setCart} />}</Stack.Screen>
        </Stack.Navigator>
     </NavigationContainer>
   );
@@ -86,10 +94,11 @@ const BackButton = ({ navigation }) => {
   );
 };
 
-const CartButton = ({ navigation }) => {
+const CartButton = ({ navigation, cartItemCount }) => {
   return (
     <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate('Cart')}>
       <MaterialIcons name="shopping-cart" size={24} color="black" />
+      {cartItemCount > 0 && <Text style={styles.cartItemCount}>{cartItemCount}</Text>}
     </TouchableOpacity>
   );
 };
@@ -103,6 +112,20 @@ const styles = StyleSheet.create({
   },
   cartButton: {
     marginRight: 20,
+    position: 'relative', 
+  },
+  cartItemCount: {
+    position: 'absolute',
+    top: -8, 
+    right: -8, 
+    backgroundColor: 'red',
+    color: 'white',
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    textAlign: 'center',
+    lineHeight: 20,
+    fontSize: 12,
   },
 });
 

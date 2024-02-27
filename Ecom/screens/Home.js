@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, StyleSheet, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Home = ({ navigation, cart, setCart }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [addedToCartMessage, setAddedToCartMessage] = useState('');
 
-  const userData =  AsyncStorage.getItem('userData');
- 
-  
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
       .then((response) => response.json())
@@ -25,21 +24,33 @@ const Home = ({ navigation, cart, setCart }) => {
     navigation.navigate('ProductDescription', { product });
   };
 
-  const renderProductItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigateToProductDescription(item)}>
-      <View style={styles.productContainer}>
-        <Image source={{ uri: item.image }} style={styles.productImage} />
-        <View style={styles.productDetails}>
-          <Text style={styles.productTitle}>{item.title}</Text>
-          <Text style={styles.productPrice}>${item.price}</Text>
+  const renderProductItem = ({ item }) => {
+    const isProductInCart = cart.some((product) => product.id === item.id);
+  
+    return (
+      <TouchableOpacity onPress={() => navigateToProductDescription(item)}>
+        <View style={styles.productContainer}>
+          <Image source={{ uri: item.image }} style={styles.productImage} />
+          <View style={styles.productDetails}>
+            <Text style={styles.productTitle}>{item.title}</Text>
+            <Text style={styles.productPrice}>${item.price}</Text>
+          </View>
+          <Button
+            title={isProductInCart ? 'Added to Cart' : 'Add to Cart'}
+            disabled={isProductInCart}
+            onPress={() => addToCart(item)}
+          />
         </View>
-        <Button title="Add to Cart" onPress={() => addToCart(item)} />
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   const addToCart = (product) => {
     setCart([...cart, product]);
+    setAddedToCartMessage(`${product.title} added to cart`);
+    setTimeout(() => {
+      setAddedToCartMessage('');
+    }, 1000);
   };
 
   if (loading) {
@@ -52,6 +63,11 @@ const Home = ({ navigation, cart, setCart }) => {
 
   return (
     <View style={styles.container}>
+      {addedToCartMessage ? (
+        <View style={styles.messageContainer}>
+          <Text style={styles.messageText}>{addedToCartMessage}</Text>
+        </View>
+      ) : null}
       <FlatList
         data={products}
         renderItem={renderProductItem}
@@ -101,6 +117,17 @@ const styles = StyleSheet.create({
   productPrice: {
     fontSize: 14,
     color: '#888',
+  },
+  messageContainer: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 5,
+  },
+  messageText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
