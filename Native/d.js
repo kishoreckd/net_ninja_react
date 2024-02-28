@@ -1,18 +1,3 @@
-// import { StatusBar, Switch } from 'react-native';
-// import React from 'react';
-// import { Text, View } from 'react-native';
-// import {useColorScheme} from 'nativewind'
-
-// export default function App() {
-//   const {colorScheme, toggleColorScheme}= useColorScheme();
-//   return (
-//  <View className="flex-1 items-center justify-center bg-gray-200 dark:bg-black dark:text-white">
-//       <Switch value={colorScheme === 'dark'} onChange={toggleColorScheme} />
-//       <Text className="dark:text-white">Open up App.js to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
 import React, { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
@@ -21,16 +6,13 @@ import { TouchableOpacity, Text } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
 import Product from "./screens/product";
-import LoginPage from "./screens/Login";
-import ProductDescription from "./screens/productdescription";
-import ProfilePage from "./screens/profilepage";
-import CartPage from "./screens/CartPage";
+
 
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    // background: background, // Set default background color to red
+    background: "transparent",
   },
 };
 
@@ -55,7 +37,7 @@ const App = () => {
         screenOptions={({ navigation, route }) => ({
           headerShown: true,
           headerLeft: () => {
-            if (route.name === 'Product') {
+            if (route.name === 'Home') {
               return <ProfileButton navigation={navigation} />;
             } else {
               if (route.name !== 'Login') {
@@ -66,22 +48,26 @@ const App = () => {
           headerRight: () => {
             const cartItemCount = cart ? cart.length : 0;
 
-            if (route.name === 'Product') {
+            if (route.name === 'Home') {
               return (
                 <CartButton navigation={navigation} cartItemCount={cartItemCount}/>
               );
-              } 
+              } else {
+              if (route.name !== 'Login') {
+                return <BackButton navigation={navigation} />;
+              }
+            }
           },
         })}
-        initialRouteName="Login"
+        initialRouteName="Product"
       >
-        <Stack.Screen name="Login" component={LoginPage} /> 
+        {/* <Stack.Screen name="Login" component={LoginPage} />  */}
         <Stack.Screen name="Product">
           {(props) => <Product {...props} cart={cart} setCart={setCart} />}
         </Stack.Screen>
-        <Stack.Screen name="ProductDescription" component={ProductDescription} />
+        {/* <Stack.Screen name="ProductDescription" component={ProductDescription} />
         <Stack.Screen name="ProfilePage" component={ProfilePage} />
-        <Stack.Screen name="Cart">{(props) => <CartPage {...props} cart={cart} setCart={setCart} />}</Stack.Screen>
+        <Stack.Screen name="Cart">{(props) => <CartPage {...props} cart={cart} setCart={setCart} />}</Stack.Screen> */}
        </Stack.Navigator>
     </NavigationContainer>
   );
