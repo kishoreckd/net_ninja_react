@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, Button } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme } from 'nativewind'; // Assuming nativewind provides useColorScheme hook
 
 const Product = ({ navigation, cart, setCart }) => {
@@ -28,9 +27,10 @@ const Product = ({ navigation, cart, setCart }) => {
 
   const renderProductItem = ({ item }) => {
     const isProductInCart = cart.some((product) => product.id === item.id);
+    const isDisabled = isProductInCart;
   
     return (
-      <View className="w-full bg-white dark:bg-gray-50/10 rounded-3xl p-5 my-5">
+      <View className="w-full bg-white shadow-md dark:bg-gray-50/10 rounded-3xl p-5 my-5">
         <TouchableOpacity onPress={() => navigateToProductDescription(item)}>
           <View className="bg-white rounded-xl">
             <Image source={{ uri: item.image }} className="w-full h-72" style={{ resizeMode: "contain" }} />
@@ -44,10 +44,14 @@ const Product = ({ navigation, cart, setCart }) => {
           <TouchableOpacity
             onPress={() => addToCart(item)}
             className="flex-row justify-center self-center w-10/12 mt-5 bg-black rounded-xl px-6 py-3 dark:bg-white"
+            disabled={isDisabled}
           >
-            <Text className="text-white dark:text-black font-bold">
-              {isProductInCart ? 'Added to Cart' : 'Add to Cart'}
-            </Text>
+            <Button
+              title={isProductInCart ? 'Added to Cart' : 'Add to Cart'}
+              color={isProductInCart ? 'gray' : 'white'}
+              disabled={isProductInCart}
+              onPress={() => addToCart(item)}
+            />
           </TouchableOpacity>
         </TouchableOpacity>
       </View>
@@ -63,19 +67,19 @@ const Product = ({ navigation, cart, setCart }) => {
     }, 1000);
   };
 
-  if (loading) {
+  
+ if (loading) {
     return (
-      <View style="flex-1 justify-center items-center">
+      <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
   }
-
   return (
-    <View style="flex-1 justify-center bg-white p-4">
+    <View className="flex-1 justify-center bg-white p-4">
       {addedToCartMessage ? (
-        <View style="bg-green-500 py-2 px-4 mb-4 rounded">
-          <Text style="text-white font-bold text-center">{addedToCartMessage}</Text>
+        <View className="bg-green-500 py-2 px-4 mb-4 rounded">
+          <Text className="text-white font-bold text-center">{addedToCartMessage}</Text>
         </View>
       ) : null}
       <FlatList

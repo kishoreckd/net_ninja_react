@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native"; // Import Alert
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme } from 'nativewind'; // Assuming nativewind provides useColorScheme hook
@@ -38,7 +38,7 @@ const LoginPage = ({ navigation }) => {
       await AsyncStorage.setItem('userData', JSON.stringify(userData)); // Store user data in AsyncStorage
       navigation.navigate("Product");
     } catch (error) {
-      Alert.alert("Login Failed", error.message);
+      Alert.alert("Login Failed", error.message); // Use Alert.alert instead of Alert
     }
   };
 

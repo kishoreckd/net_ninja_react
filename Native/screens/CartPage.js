@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 
 const CartPage = ({ cart, setCart }) => {
   const totalPrice = cart.reduce((total, product) => total + product.price, 0);
@@ -10,111 +10,47 @@ const CartPage = ({ cart, setCart }) => {
   };
 
   const renderItem = ({ item }) => (
-    <View style={styles.cartItem}>
-      <Image source={{ uri: item.image }} style={styles.productImage} />
-      <View style={styles.productInfo}>
-        <Text style={styles.productTitle}>{item.title}</Text>
-        <Text style={styles.productPrice}>${item.price}</Text>
+    <View className="flex-row items-center justify-between border-b border-gray-300 py-2">
+      <Image source={{ uri: item.image }} className="w-12 h-12 mr-4" />
+      <View className="flex-1">
+        <Text className="text-base font-semibold">{item.title}</Text>
+        <Text className="text-sm text-gray-600">${item.price}</Text>
       </View>
       <TouchableOpacity onPress={() => removeFromCart(item.id)}>
-        <Text style={styles.removeButton}>Remove</Text>
+        <Text className="text-red-600 font-semibold">Remove</Text>
       </TouchableOpacity>
     </View>
   );
 
   const handleBuyNow = () => {
-
     console.log('Buy Now:', cart);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cart</Text>
+    <View className="flex-1 bg-white p-4">
+      <Text className="text-2xl font-bold mb-4">Cart</Text>
       {cart.length > 0 ? (
         <>
           <FlatList
             data={cart}
             renderItem={renderItem}
             keyExtractor={(item) => item.id.toString()}
-            contentContainerStyle={styles.cartItemsContainer}
           />
-          <Text style={styles.totalPrice}>Total: ${totalPrice.toFixed(2)}</Text>
+          <Text className="text-lg font-bold mt-4">Total: ${totalPrice.toFixed(2)}</Text>
         </>
       ) : (
-        <Text style={styles.emptyCart}>Your cart is empty</Text>
+        <Text className="text-lg text-center">Your cart is empty</Text>
       )}
       {cart.length > 0 && (
-        <TouchableOpacity style={styles.buyNowButton} onPress={handleBuyNow}>
-          <Text style={styles.buyNowButtonText}>Buy Now - ${totalPrice.toFixed(2)}</Text>
+        <TouchableOpacity
+          className="bg-blue-500 rounded-md py-3 mt-4 items-center"
+          onPress={handleBuyNow}
+        >
+          <Text className="text-white font-bold text-lg">Buy Now - ${totalPrice.toFixed(2)}</Text>
         </TouchableOpacity>
       )}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  cartItemsContainer: {
-    flexGrow: 1,
-  },
-  cartItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    paddingVertical: 10,
-  },
-  productImage: {
-    width: 50,
-    height: 50,
-    marginRight: 10,
-  },
-  productInfo: {
-    flex: 1,
-  },
-  productTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  productPrice: {
-    fontSize: 14,
-    color: '#888',
-  },
-  removeButton: {
-    color: 'red',
-    fontWeight: 'bold',
-  },
-  emptyCart: {
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  buyNowButton: {
-    backgroundColor: 'blue',
-    paddingVertical: 10,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  buyNowButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  totalPrice: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'right',
-    marginTop: 10,
-  },
-});
 
 export default CartPage;
