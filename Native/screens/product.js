@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator, Button } from 'react-native';
-import { useColorScheme } from 'nativewind'; // Assuming nativewind provides useColorScheme hook
+import { useColorScheme } from 'nativewind'; 
 
 const Product = ({ navigation, cart, setCart }) => {
   const [products, setProducts] = useState([]);

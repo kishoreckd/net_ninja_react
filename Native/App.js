@@ -76,7 +76,9 @@ const App = () => {
       <Stack.Screen theme={customTheme} name="Product">
         {(props) => <Product {...props} cart={cart} setCart={setCart} />}
       </Stack.Screen>
-      <Stack.Screen theme={customTheme} name="ProductDescription" component={ProductDescription} />
+      <Stack.Screen theme={customTheme} name="ProductDescription"  >
+      {(props) => <ProductDescription {...props} cart={cart} setCart={setCart} />}
+      </Stack.Screen>
       <Stack.Screen theme={customTheme} name="ProfilePage" component={ProfilePage} />
       <Stack.Screen theme={customTheme} name="Cart">{(props) => <CartPage {...props} cart={cart} setCart={setCart} />}</Stack.Screen>
     </Stack.Navigator>
