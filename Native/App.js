@@ -39,7 +39,7 @@ const App = () => {
   return (
     <NavigationContainer theme={customTheme}>
       <StatusBar />
-      <View style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? 'black' : 'white' }}>
+      <View className={`flex-1 bg-${colorScheme === 'dark' ? 'black' : 'white'}`}>
         <Switch value={colorScheme === 'dark'} onValueChange={toggleColorScheme} />
         <Stack.Navigator
           screenOptions={({ navigation, route }) => ({
@@ -65,13 +65,13 @@ const App = () => {
           })}
           initialRouteName="Login"
         >
-          <Stack.Screen name="Login" component={LoginPage} /> 
-          <Stack.Screen name="Product">
+          <Stack.Screen theme={customTheme} name="Login" component={LoginPage} /> 
+          <Stack.Screen theme={customTheme} name="Product">
             {(props) => <Product {...props} cart={cart} setCart={setCart} />}
           </Stack.Screen>
-          <Stack.Screen name="ProductDescription" component={ProductDescription} />
-          <Stack.Screen name="ProfilePage" component={ProfilePage} />
-          <Stack.Screen name="Cart">{(props) => <CartPage {...props} cart={cart} setCart={setCart} />}</Stack.Screen>
+          <Stack.Screen theme={customTheme} name="ProductDescription" component={ProductDescription} />
+          <Stack.Screen theme={customTheme} name="ProfilePage" component={ProfilePage} />
+          <Stack.Screen theme={customTheme} name="Cart">{(props) => <CartPage {...props} cart={cart} setCart={setCart} />}</Stack.Screen>
         </Stack.Navigator>
       </View>
     </NavigationContainer>
@@ -80,7 +80,7 @@ const App = () => {
 
 const ProfileButton = ({ navigation }) => {
   return (
-    <TouchableOpacity style={{ marginLeft: 5 }} onPress={() => navigation.navigate('ProfilePage')}>
+    <TouchableOpacity className="ml-5" onPress={() => navigation.navigate('ProfilePage')}>
       <MaterialIcons name="account-circle" size={24} color="black" />
     </TouchableOpacity>
   );
@@ -88,7 +88,7 @@ const ProfileButton = ({ navigation }) => {
 
 const BackButton = ({ navigation }) => {
   return (
-    <TouchableOpacity style={{ marginLeft: 5 }} onPress={() => navigation.goBack()}>
+    <TouchableOpacity className="ml-5" onPress={() => navigation.goBack()}>
       <MaterialIcons name="arrow-back" size={24} color="black" />
     </TouchableOpacity>
   );
@@ -96,9 +96,9 @@ const BackButton = ({ navigation }) => {
 
 const CartButton = ({ navigation, cartItemCount }) => {
   return (
-    <TouchableOpacity style={{ marginRight: 5, position: 'relative' }} onPress={() => navigation.navigate('Cart')}>
+    <TouchableOpacity className="mr-5 relative" onPress={() => navigation.navigate('Cart')}>
       <MaterialIcons name="shopping-cart" size={24} color="black" />
-      {cartItemCount > 0 && <Text style={{ position: 'absolute', top: 0, right: 0, backgroundColor: 'red', color: 'white', borderRadius: '50%', width: 16, height: 16, fontSize: 12, textAlign: 'center' }}>{cartItemCount}</Text>}
+      {cartItemCount > 0 && <Text className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">{cartItemCount}</Text>}
     </TouchableOpacity>
   );
 };

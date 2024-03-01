@@ -10,7 +10,7 @@ const CartPage = ({ cart, setCart }) => {
   };
 
   const renderItem = ({ item }) => (
-    <View className="flex-row items-center justify-between border-b border-gray-300 py-2">
+    <View className="flex-row items-center justify-between border-b border-gray-300 py-2 shadow-md">
       <Image source={{ uri: item.image }} className="w-12 h-12 mr-4" />
       <View className="flex-1">
         <Text className="text-base font-semibold">{item.title}</Text>
@@ -27,7 +27,7 @@ const CartPage = ({ cart, setCart }) => {
   };
 
   return (
-    <View className="flex-1 bg-white p-4">
+    <View className="flex-1 bg-white p-4 shadow-md">
       <Text className="text-2xl font-bold mb-4">Cart</Text>
       {cart.length > 0 ? (
         <>
@@ -43,7 +43,7 @@ const CartPage = ({ cart, setCart }) => {
       )}
       {cart.length > 0 && (
         <TouchableOpacity
-          className="bg-blue-500 rounded-md py-3 mt-4 items-center"
+        className="bg-blue-500 rounded-md py-3 mt-4 items-center shadow-md"
           onPress={handleBuyNow}
         >
           <Text className="text-white font-bold text-lg">Buy Now - ${totalPrice.toFixed(2)}</Text>

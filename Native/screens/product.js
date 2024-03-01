@@ -30,16 +30,16 @@ const Product = ({ navigation, cart, setCart }) => {
     const isDisabled = isProductInCart;
   
     return (
-      <View className="w-full bg-white shadow-md dark:bg-gray-50/10 rounded-3xl p-5 my-5">
+      <View className={`w-full bg-white shadow-md ${colorScheme === 'dark' ? 'bg-gray-500' : 'bg-white'} rounded-3xl p-5 my-5`}>
         <TouchableOpacity onPress={() => navigateToProductDescription(item)}>
           <View className="bg-white rounded-xl">
             <Image source={{ uri: item.image }} className="w-full h-72" style={{ resizeMode: "contain" }} />
           </View>
           <View className="mt-5">
-            <Text className="text-sm text-black/60 dark:text-white/70">{item.category}</Text>
-            <Text className="text-lg font-semibold dark:text-white">{item.title}</Text>
-            <Text className="text-2xl font-extrabold dark:text-white">${item.price}</Text>
-            <Text numberOfLines={2} className="text-sm text-black/40 dark:text-white">{item.description}</Text>
+            <Text className={`text-sm ${colorScheme === 'dark' ? 'text-white' : 'text-black/60'} dark:text-white/70`}>{item.category}</Text>
+            <Text className={`text-lg font-semibold ${colorScheme === 'dark' ? 'text-white' : 'text-black'} dark:text-white`}>{item.title}</Text>
+            <Text className={`text-2xl font-extrabold ${colorScheme === 'dark' ? 'text-white' : 'text-black'} dark:text-white`}>${item.price}</Text>
+            <Text numberOfLines={2} className={`text-sm ${colorScheme === 'dark' ? 'text-white' : 'text-black/40'} dark:text-white`}>{item.description}</Text>
           </View>
           <TouchableOpacity
             onPress={() => addToCart(item)}
@@ -76,7 +76,7 @@ const Product = ({ navigation, cart, setCart }) => {
     );
   }
   return (
-    <View className="flex-1 justify-center bg-white p-4">
+    <View className={`flex-1 justify-center bg-${colorScheme === 'dark' ? 'black' : 'gray-100'} p-4`}>
       {addedToCartMessage ? (
         <View className="bg-green-500 py-2 px-4 mb-4 rounded">
           <Text className="text-white font-bold text-center">{addedToCartMessage}</Text>
