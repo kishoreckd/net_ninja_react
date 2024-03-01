@@ -38,69 +38,82 @@ const App = () => {
 
   return (
     <NavigationContainer theme={customTheme}>
-      <StatusBar />
-      <View className={`flex-1 bg-${colorScheme === 'dark' ? 'black' : 'white'}`}>
-        <Switch value={colorScheme === 'dark'} onValueChange={toggleColorScheme} />
-        <Stack.Navigator
-          screenOptions={({ navigation, route }) => ({
-            headerShown: true,
-            headerLeft: () => {
-              if (route.name === 'Product') {
-                return <ProfileButton navigation={navigation} />;
-              } else {
-                if (route.name !== 'Login') {
-                  return <BackButton navigation={navigation} />;
-                }
-              }
-            },
-            headerRight: () => {
-              const cartItemCount = cart ? cart.length : 0;
-
-              if (route.name === 'Product') {
-                return (
-                  <CartButton navigation={navigation} cartItemCount={cartItemCount}/>
-                );
-              } 
-            },
-          })}
-          initialRouteName="Login"
-        >
-          <Stack.Screen theme={customTheme} name="Login" component={LoginPage} /> 
-          <Stack.Screen theme={customTheme} name="Product">
-            {(props) => <Product {...props} cart={cart} setCart={setCart} />}
-          </Stack.Screen>
-          <Stack.Screen theme={customTheme} name="ProductDescription" component={ProductDescription} />
-          <Stack.Screen theme={customTheme} name="ProfilePage" component={ProfilePage} />
-          <Stack.Screen theme={customTheme} name="Cart">{(props) => <CartPage {...props} cart={cart} setCart={setCart} />}</Stack.Screen>
-        </Stack.Navigator>
-      </View>
-    </NavigationContainer>
+    <Stack.Navigator
+      screenOptions={({ navigation, route }) => ({
+        headerShown: true,
+        headerLeft: () => {
+          if (route.name === 'Product') {
+            return <ProfileButton navigation={navigation} />;
+          } else {
+            if (route.name !== 'Login') {
+              return <BackButton navigation={navigation} />;
+            }
+          }
+        },
+        headerRight: () => {
+          const cartItemCount = cart ? cart.length : 0;
+  
+          if (route.name === 'Product') {
+            return (
+              <View className="flex-row items-center">
+                <TouchableOpacity className='ml-5 mr-4' onPress={toggleColorScheme}>
+                  <MaterialIcons name={colorScheme === 'dark' ? 'light-mode' : 'dark-mode'} size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
+                </TouchableOpacity>          
+                <CartButton navigation={navigation} cartItemCount={cartItemCount}/>
+              </View>
+            );
+          } 
+        },
+        headerStyle: {
+          backgroundColor: colorScheme === 'dark' ? 'black' : 'white', // Change header background color based on color scheme
+        },
+        headerTintColor: colorScheme === 'dark' ? 'white' : 'black', // Change header text color based on color scheme
+      
+      })}
+      initialRouteName="Login"
+    >
+      <Stack.Screen theme={customTheme} name="Login" component={LoginPage} /> 
+      <Stack.Screen theme={customTheme} name="Product">
+        {(props) => <Product {...props} cart={cart} setCart={setCart} />}
+      </Stack.Screen>
+      <Stack.Screen theme={customTheme} name="ProductDescription" component={ProductDescription} />
+      <Stack.Screen theme={customTheme} name="ProfilePage" component={ProfilePage} />
+      <Stack.Screen theme={customTheme} name="Cart">{(props) => <CartPage {...props} cart={cart} setCart={setCart} />}</Stack.Screen>
+    </Stack.Navigator>
+  </NavigationContainer>
+  
   );
 };
-
 const ProfileButton = ({ navigation }) => {
+  const { colorScheme } = useColorScheme(); // Accessing color scheme here
+
   return (
-    <TouchableOpacity className="ml-5" onPress={() => navigation.navigate('ProfilePage')}>
-      <MaterialIcons name="account-circle" size={24} color="black" />
+    <TouchableOpacity style={{ marginLeft: 5 }} onPress={() => navigation.navigate('ProfilePage')}>
+      <MaterialIcons name="account-circle" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
     </TouchableOpacity>
   );
 };
 
 const BackButton = ({ navigation }) => {
+  const { colorScheme } = useColorScheme(); // Accessing color scheme here
+
   return (
-    <TouchableOpacity className="ml-5" onPress={() => navigation.goBack()}>
-      <MaterialIcons name="arrow-back" size={24} color="black" />
+    <TouchableOpacity style={{ marginLeft: 5 }} onPress={() => navigation.goBack()}>
+      <MaterialIcons name="arrow-back" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
     </TouchableOpacity>
   );
 };
 
 const CartButton = ({ navigation, cartItemCount }) => {
+  const { colorScheme } = useColorScheme(); // Accessing color scheme here
+
   return (
-    <TouchableOpacity className="mr-5 relative" onPress={() => navigation.navigate('Cart')}>
-      <MaterialIcons name="shopping-cart" size={24} color="black" />
-      {cartItemCount > 0 && <Text className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">{cartItemCount}</Text>}
+    <TouchableOpacity style={{ marginRight: 5, position: 'relative' }} onPress={() => navigation.navigate('Cart')}>
+      <MaterialIcons name="shopping-cart" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
+      {cartItemCount > 0 && <Text style={{ position: 'absolute', top: 0, right: 0, backgroundColor: 'red', color: 'white', borderRadius: 50, width: 16, height: 16, textAlign: 'center' }}>{cartItemCount}</Text>}
     </TouchableOpacity>
   );
 };
+
 
 export default App;

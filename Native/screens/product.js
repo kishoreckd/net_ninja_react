@@ -43,15 +43,12 @@ const Product = ({ navigation, cart, setCart }) => {
           </View>
           <TouchableOpacity
             onPress={() => addToCart(item)}
-            className="flex-row justify-center self-center w-10/12 mt-5 bg-black rounded-xl px-6 py-3 dark:bg-white"
+            className="flex-row justify-center self-center w-10/12 mt-5 bg-black rounded-xl px-6 py-3 dark:bg-blue"
             disabled={isDisabled}
           >
-            <Button
-              title={isProductInCart ? 'Added to Cart' : 'Add to Cart'}
-              color={isProductInCart ? 'gray' : 'white'}
-              disabled={isProductInCart}
-              onPress={() => addToCart(item)}
-            />
+           
+            <Text className={`text-sm ${colorScheme === 'dark' ? 'text-black/60' : 'text-white'} text-lg font-semibold dark:text-white/70`}>{isProductInCart ? 'Added to Cart' : 'Add to Cart'}</Text>
+
           </TouchableOpacity>
         </TouchableOpacity>
       </View>
