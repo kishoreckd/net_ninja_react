@@ -1,8 +1,4 @@
-export function multiply(a: number, b: number): Promise<number> {
-  return Promise.resolve(a * b);
-}
-
-import GetSettings from './getsettings';
+import GetSettings from '../../models/models.js'; // Import the file containing GetSettings class
 
 async function getSettings(domain) {
   try {
@@ -30,5 +26,3 @@ async function getSettings(domain) {
     return null;
   }
 }
-
-export { getSettings };

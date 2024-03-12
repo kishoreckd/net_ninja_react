@@ -120,26 +120,63 @@
 
 // export default App;
 
-import React from 'react';
+/*************************************************************** */
+import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
-import { multiply } from 'react-native-sdk'; 
+import { getSettings } from 'react-native-sdk';
 
 const App = () => {
+  useEffect(() => {
+    fetchSettings();
+  }, []); 
 
-  multiply(10, 20)
-    .then(result => {
-      console.log('Multiplication result:', result);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+  async function fetchSettings() {
+    try {
+      const settingsInstance = await getSettings('dckappalli.zircly.com');
+      if (settingsInstance) {
+        console.log('Company Email:', settingsInstance.settings.companyEmail);
+      } else {
+        console.log('Failed to fetch settings');
+      }
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+    }
+  }
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>This is your main app component</Text>
-      {/* <ExampleComponent /> Use the imported component here */}
     </View>
   );
 };
 
 export default App;
+
+
+
+/*************************************************************** */
+
+
+// import React from 'react';
+// import { View, Text } from 'react-native';
+// import { multiply } from 'react-native-sdk'; 
+
+// const App = () => {
+
+//   multiply(10, 20)
+//     .then(result => {
+//       console.log('Multiplication result:', result);
+//     })
+//     .catch(error => {
+//       console.error('Error:', error);
+//     });
+
+//   return (
+//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//       <Text>This is your main app component</Text>
+//       {/* <ExampleComponent /> Use the imported component here */}
+//     </View>
+//   );
+// };
+
+// export default App;
