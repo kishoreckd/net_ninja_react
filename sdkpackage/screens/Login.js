@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Alert, SafeAreaView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, Pressable, SafeAreaView, Switch } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons } from 'react-native-vector-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -48,8 +48,8 @@ const LoginPage = ({ navigation }) => {
         throw new Error('Invalid credentials');
       }
   
-      const userData = await response.json(); 
-      await AsyncStorage.setItem('userData', JSON.stringify(userData)); 
+      const userData = await response.json(); // Parse response data
+      await AsyncStorage.setItem('userData', JSON.stringify(userData)); // Store user data in AsyncStorage
       navigation.navigate("Product");
     } catch (error) {
       Alert.alert("Login Failed", error.message);
@@ -87,8 +87,8 @@ const LoginPage = ({ navigation }) => {
             />
           }
           keyboardType="email-address"
-          onChangeText={setUsername} 
-          value={username} 
+          onChangeText={setUsername} // Pass onChangeText prop
+          value={username} // Pass value prop
         />
 
         <CustomInputField
