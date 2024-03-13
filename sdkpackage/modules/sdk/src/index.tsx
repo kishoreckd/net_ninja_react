@@ -43,7 +43,7 @@ async function findMyCommunity(email) {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({ email: `hariprsad@dckap.com` }),
+      body: JSON.stringify({ email: email }),
 
     });
 
