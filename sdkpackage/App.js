@@ -121,11 +121,13 @@
 // export default App;
 
 /*************************************************************** */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { getSettings } from 'react-native-sdk';
 
 const App = () => {
+  const [settingsInstance, setSettingsInstance] = useState(null);
+
   useEffect(() => {
     fetchSettings();
   }, []); 
@@ -134,7 +136,7 @@ const App = () => {
     try {
       const settingsInstance = await getSettings('dckappalli.zircly.com');
       if (settingsInstance) {
-        console.log('Company Email:', settingsInstance.settings.companyEmail);
+        setSettingsInstance(settingsInstance);
       } else {
         console.log('Failed to fetch settings');
       }
@@ -145,7 +147,9 @@ const App = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>This is your main app component</Text>
+      {settingsInstance && settingsInstance.settings && (
+        <Text>This is your company_email: {settingsInstance.settings.companyEmail}</Text>
+      )}
     </View>
   );
 };
