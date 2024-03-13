@@ -25,7 +25,6 @@ class GetSettings {
     this.settings = settings;
   }
 
-  // This below code returns the data from API
   static fromJson(json) {
     return new GetSettings(Settings.fromJson(json.settings));
   }

@@ -8,8 +8,8 @@ import GoogleSVG from '../assets/images/misc/google.svg';
 import FacebookSVG from '../assets/images/misc/facebook.svg';
 import TwitterSVG from '../assets/images/misc/twitter.svg';
 
-import CustomInputField from './CustomInputField';
-import CustomButton from './CustomButtons';
+import CustomInputField from './constants/CustomInputField';
+import CustomButton from './constants/CustomButtons';
 
 
 const LoginPage = ({ navigation }) => {
