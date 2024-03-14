@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "ecommercesdk": ["./src/index"]
+      "ecommercesdk": ["./src/*"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

@@ -1,7 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
-import RNFS from 'react-native-fs';
-
-const introspectionQuery = `
+export const introspectionQuery = `
 query IntrospectionQuery {
   __schema {
     queryType {
@@ -39,6 +36,33 @@ fragment FullType on __Type {
     }
     type {
       ...TypeRef
+        fields(includeDeprecated: true) {
+            name
+            description
+            args {
+            ...InputValue
+            }
+            type {
+            ...TypeRef
+            }
+            isDeprecated
+            deprecationReason
+        }
+         inputFields {
+            ...InputValue
+        }
+        interfaces {
+            ...TypeRef
+        }
+        enumValues(includeDeprecated: true) {
+            name
+            description
+            isDeprecated
+            deprecationReason
+        }
+        possibleTypes {
+            ...TypeRef
+        }
     }
     isDeprecated
     deprecationReason
@@ -86,29 +110,3 @@ fragment TypeRef on __Type {
   }
 }
 `;
-
-const MagentoStoreGraphQlSchema = () => {
-  const { loading, error, data } = useQuery(gql(introspectionQuery));
-
-  if (loading) {
-    // Handle loading state
-    return '<>Loading...</>';
-  }
-
-  if (error) {
-    // Handle error state
-    console.error(error);
-    return null;
-  }
-
-  const introspectionJson = data;
-  const filePath = `${RNFS.DocumentDirectoryPath}/introspection_result.json`;
-
-  RNFS.writeFile(filePath, JSON.stringify(introspectionJson), 'utf8')
-    .then(() => console.log('Introspection result saved successfully'))
-    .catch((err) => console.error('Error saving introspection result:', err));
-
-  return null; // or return whatever component you want to render after saving the file
-};
-
-export default MagentoStoreGraphQlSchema;
